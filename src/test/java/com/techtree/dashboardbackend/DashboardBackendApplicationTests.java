@@ -1,8 +1,7 @@
-package com.dysprosium.dashboardbackend;
+package com.techtree.dashboardbackend;
 
-import com.dysprosium.dashboardbackend.Service.StudentServiceImpl;
-import com.dysprosium.dashboardbackend.mapper.StudentMapper;
-import com.dysprosium.dashboardbackend.pojo.Student;
+import com.techtree.dashboardbackend.service.StudentServiceImpl;
+import com.techtree.dashboardbackend.model.DO.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +21,9 @@ class DashboardBackendApplicationTests {
     @Test
     public void testSelect() {
         System.out.println(("----- selectAll method test ------"));
-        Student studentById = studentMapper.getStudentById(101);
-        System.out.println(studentById);
+        studentMapper.deleteStudentById(106);
+        List<Student> students = studentMapper.queryAll();
+        students.forEach(System.out::println);
 
     }
 

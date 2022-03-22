@@ -1,4 +1,4 @@
-package com.dysprosium.dashboardbackend.pojo;
+package com.techtree.dashboardbackend.model.DO;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;

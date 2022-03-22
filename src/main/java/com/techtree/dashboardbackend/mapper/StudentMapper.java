@@ -1,7 +1,7 @@
-package com.dysprosium.dashboardbackend.mapper;
+package com.techtree.dashboardbackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.dysprosium.dashboardbackend.pojo.Student;
+import com.techtree.dashboardbackend.model.DO.Student;
 import org.apache.ibatis.annotations.Mapper;
 
 
