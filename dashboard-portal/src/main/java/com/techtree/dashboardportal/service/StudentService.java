@@ -1,6 +1,6 @@
-package com.techtree.dashboardbackend.service;
+package com.techtree.dashboardportal.service;
 
-import com.techtree.dashboardbackend.model.DO.Student;
+import com.techtree.dashboardportal.model.DO.Student;
 
 import java.util.List;
 

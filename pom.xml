@@ -61,13 +61,11 @@
             <version>1.2.8</version>
         </dependency>
         <!-- 整合Knife4j -->
-
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.3</version>
         </dependency>
-
     </dependencies>
 
     <build>

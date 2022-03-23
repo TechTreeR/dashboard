@@ -1,8 +1,8 @@
-package com.techtree.dashboardbackend.controller;
+package com.techtree.dashboardportal.controller;
 
 
-import com.techtree.dashboardbackend.model.DO.Student;
-import com.techtree.dashboardbackend.service.StudentServiceImpl;
+import com.techtree.dashboardportal.model.DO.Student;
+import com.techtree.dashboardportal.service.StudentServiceImpl;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ public class StudentController {
     private StudentServiceImpl studentService;
 
     @GetMapping("/selectById/{id}")
-    public String getStudentById(@PathVariable  long id) {
+    public String getStudentById(@PathVariable long id) {
         return studentService.getStudentById(id).toString();
     }
 
@@ -32,8 +32,8 @@ public class StudentController {
     }
 
     @PostMapping("/insertForm")
-    public String insertStudentByForm(@RequestParam("id") long id, @RequestParam("stuName") String stuName) {
-        studentService.insertStudent(new Student(id, stuName));
+    public String insertStudentByForm(@RequestParam("id") long id, @RequestParam("name") String name, @RequestParam("sex") String sex, @RequestParam("age") int age, @RequestParam("password") String password, @RequestParam("email") String email) {
+        studentService.insertStudent(new Student(id, name, sex, age, password, email));
         return studentService.queryAll().toString();
     }
 
