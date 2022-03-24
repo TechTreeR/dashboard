@@ -1,6 +1,7 @@
 package com.techtree.dashboardportal.controller;
 
 
+import com.google.gson.Gson;
 import com.techtree.dashboardportal.model.DO.Student;
 import com.techtree.dashboardportal.service.StudentServiceImpl;
 import io.swagger.annotations.Api;
@@ -15,33 +16,42 @@ public class StudentController {
     @Autowired
     private StudentServiceImpl studentService;
 
+    Gson gson = new Gson();
+
     @GetMapping("/selectById/{id}")
     public String getStudentById(@PathVariable long id) {
-        return studentService.getStudentById(id).toString();
+        return gson.toJson(studentService.getStudentById(id));
     }
 
-    @GetMapping("/queryAll")
-    public String queryAll(){
-        return studentService.queryAll().toString();
+    @GetMapping("/selectById/{name}")
+    public String getStudentByName(@PathVariable String name) {
+        return gson.toJson(studentService.getStudentByName(name));
     }
 
-    @PostMapping("/insertJSON")
-    public String insertStudentByJSON(@RequestBody Student student) {
-        studentService.insertStudent(student);
-        return studentService.queryAll().toString();
+
+    @GetMapping("/getAll")
+    public String getAll(){
+        return gson.toJson(studentService.getAll());
     }
 
-    @PostMapping("/insertForm")
-    public String insertStudentByForm(@RequestParam("id") long id, @RequestParam("name") String name, @RequestParam("sex") String sex, @RequestParam("age") int age, @RequestParam("password") String password, @RequestParam("email") String email) {
-        studentService.insertStudent(new Student(id, name, sex, age, password, email));
-        return studentService.queryAll().toString();
+    @PostMapping("/addJSON")
+    public String addStudentByJSON(@RequestBody Student student) {
+        studentService.addStudent(student);
+        return gson.toJson(studentService.getAll());
+
+    }
+
+    @PostMapping("/update")
+    public String updateStudent(@RequestBody Student student) {
+        studentService.updateStudent(student);
+        return gson.toJson(studentService.getAll());
     }
 
 
     @DeleteMapping("/delete")
     public String deleteStudentById(@RequestParam("id") long id){
         studentService.deleteStudentById(id);
-        return studentService.queryAll().toString();
+        return gson.toJson(studentService.getAll());
     }
 
 

@@ -6,12 +6,11 @@ import java.util.List;
 
 public interface StudentService {
 
-    List<Student> queryAll();
-
+    List<Student> getAll();
     Student getStudentById(long id);
-
-    int insertStudent(Student student);
-
-    int deleteStudentById(long id);
+    Student getStudentByName(String name);
+    void addStudent(Student student);
+    void updateStudent(Student student);
+    void deleteStudentById(long id);
 
 }
