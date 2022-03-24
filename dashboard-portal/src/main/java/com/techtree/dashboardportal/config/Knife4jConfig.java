@@ -22,7 +22,7 @@ public class Knife4jConfig {
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.techtree.dashboardbackend.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.techtree.dashboardportal.controller"))
                 .paths(PathSelectors.any())
                 .build();
 
