@@ -3,7 +3,7 @@ package com.techtree.dashboardportal.controller;
 
 import com.google.gson.Gson;
 import com.techtree.dashboardportal.model.DO.Student;
-import com.techtree.dashboardportal.service.StudentServiceImpl;
+import com.techtree.dashboardportal.service.impl.StudentServiceImpl;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

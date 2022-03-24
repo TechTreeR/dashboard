@@ -1,8 +1,9 @@
-package com.techtree.dashboardportal.service;
+package com.techtree.dashboardportal.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.techtree.dashboardportal.mapper.StudentMapper;
 import com.techtree.dashboardportal.model.DO.Student;
+import com.techtree.dashboardportal.service.StudentService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     @Autowired
     StudentMapper studentMapper;

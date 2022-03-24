@@ -1,7 +1,7 @@
 package com.techtree.dashboardportal.controller;
 
 import com.techtree.dashboardportal.model.DO.Student;
-import com.techtree.dashboardportal.service.StudentServiceImpl;
+import com.techtree.dashboardportal.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
