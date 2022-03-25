@@ -3,12 +3,15 @@ package com.techtree.dashboardportal.controller;
 
 import com.google.gson.Gson;
 import com.techtree.dashboardportal.model.DO.Student;
+import com.techtree.dashboardcommon.api.CommonResult;
 import com.techtree.dashboardportal.service.impl.StudentServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "学生模块")
 @RestController
@@ -18,49 +21,49 @@ public class StudentController {
     @Autowired
     private StudentServiceImpl studentService;
 
-    Gson gson = new Gson();
-
     @GetMapping("/selectById/{id}")
     @ApiOperation(value = "学生主页信息", notes = "根据学生id查询学生信息")
     @ApiImplicitParam(name = "id", value = "学生id", dataType = "long")
-    public String getStudentById(@PathVariable long id) {
-        return gson.toJson(studentService.getStudentById(id));
+    public CommonResult<Student> getStudentById(@PathVariable long id) {
+        Student studentById = studentService.getStudentById(id);
+        return CommonResult.success(studentById, "查询学生信息成功");
     }
 
     @GetMapping("/selectById/{name}")
     @ApiOperation(value = "学生主页信息", notes = "根据学生姓名查询学生信息")
-    public String getStudentByName(@PathVariable String name) {
-        return gson.toJson(studentService.getStudentByName(name));
+    public CommonResult<Student> getStudentByName(@PathVariable String name) {
+        Student studentByName = studentService.getStudentByName(name);
+        return CommonResult.success(studentByName, "查询学生信息成功");
     }
 
 
     @GetMapping("/getAll")
     @ApiOperation(value = "学生主页信息", notes = "查询所有学生信息")
-    public String getAll(){
-        return gson.toJson(studentService.getAll());
+    public CommonResult<List<Student>> getAllStudents(){
+        return CommonResult.success(studentService.getAllStudents(), "查询所有学生信息成功");
     }
 
-    @PostMapping("/addJSON")
+    @PutMapping("/addJSON")
     @ApiOperation(value = "添加学生信息", notes = "传入新的学生信息")
-    public String addStudentByJSON(@RequestBody Student student) {
+    public CommonResult<String> addStudentByJSON(@RequestBody Student student) {
         studentService.addStudent(student);
-        return gson.toJson(studentService.getAll());
+        return CommonResult.success(null, "添加学生信息成功");
 
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @ApiOperation(value = "修改学生信息", notes = "传入新的学生信息")
-    public String updateStudent(@RequestBody Student student) {
+    public CommonResult<String> updateStudent(@RequestBody Student student) {
         studentService.updateStudent(student);
-        return gson.toJson(studentService.getAll());
+        return CommonResult.success(null, "修改学生信息成功");
     }
 
 
     @DeleteMapping("/delete")
     @ApiOperation(value = "删除学生信息", notes = "根据学生id删除学生信息")
-    public String deleteStudentById(@RequestParam("id") long id){
+    public CommonResult<String> deleteStudentById(@RequestParam("id") long id){
         studentService.deleteStudentById(id);
-        return gson.toJson(studentService.getAll());
+        return CommonResult.success(null, "删除学生信息成功");
     }
 
 

@@ -17,7 +17,7 @@ public class StudentServiceImpl implements StudentService {
     StudentMapper studentMapper;
 
     @Override
-    public List<Student> getAll() {
+    public List<Student> getAllStudents() {
         return studentMapper.selectList(null);
 
     }

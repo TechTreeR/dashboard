@@ -53,8 +53,12 @@ public class Course implements Serializable {
     @ApiModelProperty(value = "上课地点")
     private String place;
 
+    @ApiModelProperty(value = "上课地点")
+    @NotEmpty(message = "开课学院不能为空")
+    private String major;
+
     @ApiModelProperty(value = "容量")
-    @NotEmpty(message = "容量不能为空")
+
     private Long capacity;
 
     @ApiModelProperty(value = "余量")
@@ -63,7 +67,7 @@ public class Course implements Serializable {
 
     @ApiModelProperty(value = "是否可选")
     @NotEmpty(message = "是否可选不能为空")
-    private Boolean canSelect;
+    private Integer canSelect;
 
     @ApiModelProperty(value = "开始周数")
     private int startWeek;

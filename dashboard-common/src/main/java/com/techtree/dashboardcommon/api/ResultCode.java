@@ -1,21 +1,11 @@
 package com.techtree.dashboardcommon.api;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
- * @author Dysprosium
- * @title: ResultCode
- * @projectName dashboard-backend
- * @description: TODO
- * @date 2022-03-2416:00
+ * @Description: 枚举了一些常用API操作码
+ * @author: peng.ni
+ * @date: 2021/04/07
  */
-
-@AllArgsConstructor
-@NoArgsConstructor
-public enum ResultCode {
-
+public enum ResultCode implements IErrorCode {
     SUCCESS(200, "操作成功"),
 
     FAILED(500, "操作失败"),
@@ -26,14 +16,20 @@ public enum ResultCode {
 
     FORBIDDEN(403, "没有相关权限");
 
-
     private long code;
     private String message;
 
+    private ResultCode(long code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    @Override
     public long getCode() {
         return code;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
