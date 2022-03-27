@@ -1,4 +1,4 @@
-package com.techtree.dashboardportal.config;
+package com.techtree.portal.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class Knife4jConfig {
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.techtree.dashboardportal.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.techtree.portal.controller"))
                 .paths(PathSelectors.any())
                 .build();
 

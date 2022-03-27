@@ -1,4 +1,4 @@
-package com.techtree.dashboardportal.controller;
+package com.techtree.portal.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

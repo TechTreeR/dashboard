@@ -1,7 +1,7 @@
-package com.techtree.dashboardportal.service;
+package com.techtree.portal.service;
 
-import com.techtree.dashboardportal.model.DO.Course;
-import com.techtree.dashboardportal.model.DO.Student;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.techtree.portal.model.DO.Course;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
  * @description: TODO
  * @date 2022-03-2517:35
  */
-public interface CourseService {
+public interface CourseService extends IService<Course> {
 
     List<Course> getAllCourses();
     Course getCourseById(long id);
@@ -23,9 +23,9 @@ public interface CourseService {
     List<Course> getCourseByYearAndSemester(int year, int semester);
     List<Course> getCourseByMap(Map<String, Object> courseMap);
 
-    void addCourse(Course course);
-    void updateCourse(Course course);
-    void deleteCourseById(long id);
+    int addCourse(Course course);
+    int updateCourse(Course course);
+    int deleteCourseById(long id);
 
 
 

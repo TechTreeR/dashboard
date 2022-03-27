@@ -1,7 +1,7 @@
-package com.techtree.dashboardportal.mapper;
+package com.techtree.portal.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.techtree.dashboardportal.model.DO.Student;
+import com.techtree.portal.model.DO.Student;
 import org.apache.ibatis.annotations.Mapper;
 
 

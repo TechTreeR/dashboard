@@ -1,4 +1,4 @@
-package com.techtree.dashboardportal.model.DO;
+package com.techtree.portal.model.DO;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;

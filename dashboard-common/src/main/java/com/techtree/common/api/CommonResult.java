@@ -1,4 +1,4 @@
-package com.techtree.dashboardcommon.api;
+package com.techtree.common.api;
 
 /**
  * @Description: 通用返回对象

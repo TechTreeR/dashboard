@@ -1,4 +1,4 @@
-package com.techtree.dashboardcommon.api;
+package com.techtree.common.api;
 
 /**
  * @Description: 枚举了一些常用API操作码

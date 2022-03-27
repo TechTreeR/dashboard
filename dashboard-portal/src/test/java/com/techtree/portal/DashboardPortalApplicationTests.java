@@ -1,8 +1,8 @@
-package com.techtree.dashboardportal;
+package com.techtree.portal;
 
-import com.techtree.dashboardportal.model.DO.Course;
-import com.techtree.dashboardportal.service.impl.CourseServiceImpl;
-import com.techtree.dashboardportal.service.impl.StudentServiceImpl;
+import com.techtree.portal.model.DO.Course;
+import com.techtree.portal.service.impl.CourseServiceImpl;
+import com.techtree.portal.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +20,7 @@ class DashboardPortalApplicationTests {
     @Test
     void contextLoads() {
         System.out.println(("----- selectAll method test ------"));
-        List<Course> course = courseService.getCourseByName("化学");
+        List<Course> course = courseService.getAllCourses();
         for (Course course1 : course) {
             System.out.println(course1);
         }

@@ -1,10 +1,9 @@
-package com.techtree.dashboardportal.controller;
+package com.techtree.portal.controller;
 
 
-import com.google.gson.Gson;
-import com.techtree.dashboardportal.model.DO.Student;
-import com.techtree.dashboardcommon.api.CommonResult;
-import com.techtree.dashboardportal.service.impl.StudentServiceImpl;
+import com.techtree.common.api.CommonResult;
+import com.techtree.portal.model.DO.Student;
+import com.techtree.portal.service.impl.StudentServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +28,7 @@ public class StudentController {
         return CommonResult.success(studentById, "查询学生信息成功");
     }
 
-    @GetMapping("/selectById/{name}")
+    @GetMapping("/selectByName/{name}")
     @ApiOperation(value = "学生主页信息", notes = "根据学生姓名查询学生信息")
     public CommonResult<Student> getStudentByName(@PathVariable String name) {
         Student studentByName = studentService.getStudentByName(name);
