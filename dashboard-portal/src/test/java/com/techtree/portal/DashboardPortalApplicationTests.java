@@ -19,12 +19,8 @@ class DashboardPortalApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println(("----- selectAll method test ------"));
-        List<Course> course = courseService.getAllCourses();
-        for (Course course1 : course) {
-            System.out.println(course1);
         }
 
-    }
+
 
 }

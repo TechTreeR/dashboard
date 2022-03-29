@@ -1,11 +1,15 @@
 package com.techtree.portal.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.crypto.digest.BCrypt;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.techtree.common.exception.Assert;
 import com.techtree.portal.mapper.StudentMapper;
 import com.techtree.portal.model.DO.Student;
+import com.techtree.portal.model.VO.StudentTokenVo;
 import com.techtree.portal.service.StudentService;
+import com.techtree.portal.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,10 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Autowired
     StudentMapper studentMapper;
+
+    @Autowired
+    JwtUtil jwtUtil;
+
 
     @Override
     public List<Student> getAllStudents() {
@@ -66,6 +74,24 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             Assert.fail("删除学生信息失败");
         }
         return deleteById;
+    }
+
+    @Override
+    public StudentTokenVo login(long id, String password) {
+        Student result = this.getOne(new QueryWrapper<Student>().eq("id", id));
+        System.out.println("student:" + result.toString());
+        if(ObjectUtil.isNull(result)) {
+            Assert.fail("学生信息不存在");
+        }
+        boolean checkPassword = password.equals(result.getPassword());
+        if(!checkPassword) {
+            Assert.fail("用户名或密码输入错误，请重试");
+        }
+        String token = jwtUtil.createToken(String.valueOf(id), result.getName());
+        StudentTokenVo studentTokenVo = new StudentTokenVo();
+        studentTokenVo.setStudent(result);
+        studentTokenVo.setAccessToken(token);
+        return studentTokenVo;
     }
 
 

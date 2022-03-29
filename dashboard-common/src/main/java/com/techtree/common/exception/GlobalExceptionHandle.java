@@ -21,17 +21,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class GlobalExceptionHandle {
 
-    @ResponseBody
+    {
+        System.out.println("Exception handler");
+    }
+
+
     @ExceptionHandler(value = ApiException.class)
+    @ResponseBody
     public CommonResult handApiException(ApiException e) {
+        System.out.println("Api Exception");
         if (e.getResultCode() != null) {
             return CommonResult.failed(e.getResultCode());
         }
         return CommonResult.failed(e.getMessage());
     }
 
-    @ResponseBody
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ResponseBody
     public CommonResult handleValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         String message = null;
@@ -45,8 +52,9 @@ public class GlobalExceptionHandle {
     }
 
 
-    @ResponseBody
+
     @ExceptionHandler(value = BindException.class)
+    @ResponseBody
     public CommonResult handleValidException(BindException e) {
         BindingResult bindingResult = e.getBindingResult();
         String message = null;

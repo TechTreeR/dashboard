@@ -3,6 +3,7 @@ package com.techtree.portal.controller;
 
 import com.techtree.common.api.CommonResult;
 import com.techtree.portal.model.DO.Student;
+import com.techtree.portal.model.VO.StudentTokenVo;
 import com.techtree.portal.service.impl.StudentServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -65,5 +66,11 @@ public class StudentController {
         return CommonResult.success(null, "删除学生信息成功");
     }
 
+    @GetMapping("/login")
+    @ApiOperation(value = "登录")
+    public CommonResult<StudentTokenVo> login(long id, String password) {
+        StudentTokenVo login = studentService.login(id, password);
+        return CommonResult.success(login, "登陆成功");
+    }
 
 }
