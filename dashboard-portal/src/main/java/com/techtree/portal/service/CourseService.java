@@ -16,7 +16,7 @@ import java.util.Map;
 public interface CourseService extends IService<Course> {
 
     List<Course> getAllCourses();
-    Course getCourseById(long id);
+    Course getCourseById(String id);
     List<Course> getCourseByName(String name); // 需要支持模糊搜索
     List<Course> getCourseByTeacher(String tName);
     List<Course> getCourseByMajor(String major);
@@ -24,8 +24,8 @@ public interface CourseService extends IService<Course> {
     List<Course> getCourseByMap(Map<String, Object> courseMap);
 
     int addCourse(Course course);
-    int updateCourse(Course course);
-    int deleteCourseById(long id);
+    boolean updateCourse(Course course);
+    int deleteCourseById(String id);
 
 
 

@@ -23,12 +23,12 @@ import java.io.Serializable;
 @ApiModel(description = "获取Token返回信息封装")
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentTokenVo extends Student implements Serializable {
+public class StudentTokenVo implements Serializable {
 
     @ApiModelProperty("访问令牌")
     private String accessToken;
 
     @ApiModelProperty("用户对象信息")
-    private Student student;
+    private StudentInfoVo student;
 
 }

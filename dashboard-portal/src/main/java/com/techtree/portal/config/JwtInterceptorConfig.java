@@ -14,18 +14,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @description: TODO
  * @date 2022-03-2822:28
  */
-@Configuration
-public class JwtInterceptorConfig implements WebMvcConfigurer {
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authenticationInterceptor())
-                .addPathPatterns("/students/**")
-                .excludePathPatterns("/students/login");
-    }
-    @Bean
-    public JwtAuthenticationInterceptor authenticationInterceptor() {
-        return new JwtAuthenticationInterceptor();
-    }
 
 
-}
+
+//@Configuration
+//public class JwtInterceptorConfig implements WebMvcConfigurer {
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(authenticationInterceptor())
+//                .addPathPatterns("/students/**")
+//                .excludePathPatterns("/students/login");
+//    }
+//    @Bean
+//    public JwtAuthenticationInterceptor authenticationInterceptor() {
+//        return new JwtAuthenticationInterceptor();
+//    }
+//
+//
+//}

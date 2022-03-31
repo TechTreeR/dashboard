@@ -17,7 +17,7 @@
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>logs/file/fileLog.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/file/fileLog.log.%d.%i</fileNamePattern>
+            <fileNamePattern>logs/file/fileLog.log.%d.%i</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 64 MB -->
                 <maxFileSize>64 MB</maxFileSize>
@@ -37,7 +37,7 @@
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>logs/sql/sqlFile.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/sql/sqlFile.log.%d.%i</fileNamePattern>
+            <fileNamePattern>logs/sql/sqlFile.log.%d.%i</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 64 MB -->
                 <maxFileSize>64 MB</maxFileSize>
@@ -60,7 +60,7 @@
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>logs/error/errorFile.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/error/errorFile.%d.log.%i</fileNamePattern>
+            <fileNamePattern>logs/error/errorFile.%d.log.%i</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 64 MB -->
                 <maxFileSize>64 MB</maxFileSize>

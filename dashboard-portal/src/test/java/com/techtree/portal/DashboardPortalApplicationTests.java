@@ -1,6 +1,7 @@
 package com.techtree.portal;
 
 import com.techtree.portal.model.DO.Course;
+import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.service.impl.CourseServiceImpl;
 import com.techtree.portal.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,12 @@ class DashboardPortalApplicationTests {
 
     @Test
     void contextLoads() {
+        StudentInfoVo studentByEmail = studentMapper.getStudentByEmail("1119493091@qq.com");
+        List<StudentInfoVo> allStudents = studentMapper.getAllStudents();
+        for (StudentInfoVo allStudent : allStudents) {
+            System.out.println(allStudent);
         }
+    }
 
 
 

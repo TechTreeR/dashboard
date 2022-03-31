@@ -17,17 +17,37 @@ spring:
       test-on-borrow: false
       test-on-return: false
       pool-prepared-statements: true
+      mysql:
+        usePing
+  mail:
+    host: smtp.feishu.cn
+    username: support@techtree.tech
+    password: wGac8XyteiUFZxug
+    default-encoding: UTF-8
+  redis:
+    host: 110.42.187.29
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 20
+        max-wait: 1000
+        min-idle: 0
 
+    timeout: 30000
 
 
 server:
   port: 8081
 
-
 mybatis-plus:
   global-config:
     db-config:
       id-type: auto #全局默认主键类型设置为自增
+      logic-delete-field: isDeleted  # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
     configuration:
       auto-mapping-behavior: partial #只对非嵌套的 resultMap 进行自动映射
       map-underscore-to-camel-case: true #开启自动驼峰命名规则映射
@@ -35,7 +55,6 @@ mybatis-plus:
   logging:
     level:
       com.hyl.portal.mapper: debug
-
 
 logging:
   config: classpath:logback-spring.xml

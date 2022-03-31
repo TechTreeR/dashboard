@@ -2,7 +2,7 @@ package com.techtree.portal.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.techtree.common.exception.Assert;
 import com.techtree.portal.mapper.CourseMapper;
@@ -35,7 +35,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     }
 
     @Override
-    public Course getCourseById(long id) {
+    public Course getCourseById(String id) {
         Course course = courseMapper.selectById(id);
         if (ObjectUtil.isNull(course)) {
             Assert.fail("课程信息未找到");
@@ -98,16 +98,16 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     }
 
     @Override
-    public int updateCourse(Course course) {
-        int update = courseMapper.update(course, null);
-        if(update == 0) {
+    public boolean updateCourse(Course course) {
+        boolean update = this.update(course, new UpdateWrapper<Course>().eq("cid", course.getCid()));
+        if(!update) {
             Assert.fail("修改课程信息失败");
         }
-        return update;
+        return true;
     }
 
     @Override
-    public int deleteCourseById(long id) {
+    public int deleteCourseById(String id) {
         int deleteById = courseMapper.deleteById(id);
         if(deleteById == 0) {
             Assert.fail("删除课程信息失败");

@@ -3,6 +3,7 @@ package com.techtree.portal.interceptor;
 import com.techtree.common.api.ResultCode;
 import com.techtree.common.exception.Assert;
 import com.techtree.portal.model.DO.Student;
+import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.service.StudentService;
 import com.techtree.portal.service.impl.StudentServiceImpl;
 import com.techtree.portal.util.JwtUtil;
@@ -40,7 +41,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
         JwtUtil jwtUtil = new JwtUtil();
         String userId = JwtUtil.getAudience(token);
 
-        Student studentByName = studentService.getStudentByName(userId);
+        StudentInfoVo studentByName = studentService.getStudentByName(userId);
         System.out.println("student: " + studentByName.toString());
         if(studentByName == null)   Assert.fail(ResultCode.UNAUTHORIZED);
 
