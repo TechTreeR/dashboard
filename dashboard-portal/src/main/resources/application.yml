@@ -52,9 +52,6 @@ mybatis-plus:
       auto-mapping-behavior: partial #只对非嵌套的 resultMap 进行自动映射
       map-underscore-to-camel-case: true #开启自动驼峰命名规则映射
 
-  logging:
-    level:
-      com.hyl.portal.mapper: debug
 
 logging:
   config: classpath:logback-spring.xml

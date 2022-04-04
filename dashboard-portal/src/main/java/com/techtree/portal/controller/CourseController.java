@@ -24,6 +24,7 @@ import java.util.List;
 @Api(tags = "选课模块")
 @RestController
 @RequestMapping("/courses")
+@CrossOrigin
 public class CourseController {
 
     @Autowired

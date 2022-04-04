@@ -29,9 +29,10 @@ public class MailServiceUtil {
         message.setText(content);
         try {
             mailSender.send(message);
-            log.info("发送邮件成功");
+            log.info("向 {} 发送邮件验证码 {} 成功", to, content);
         } catch (MailException e) {
-            log.error("发送邮件失败");
+            log.error("向 {} 发送邮件验证码 {} 失败", to, content);
+            log.error(e.getMessage(), e);
         }
     }
 

@@ -4,6 +4,7 @@ package com.techtree.portal.controller;
 import com.techtree.common.api.CommonResult;
 import com.techtree.portal.annotation.CheckLogin;
 import com.techtree.portal.model.DO.Student;
+import com.techtree.portal.model.DO.StudentCourseRelation;
 import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.model.VO.StudentTokenVo;
 import com.techtree.portal.service.impl.StudentServiceImpl;
@@ -18,6 +19,7 @@ import java.util.List;
 @Api(tags = "学生模块")
 @RestController
 @RequestMapping("/students")
+@CrossOrigin
 public class StudentController {
 
     @Autowired
@@ -99,6 +101,14 @@ public class StudentController {
     public CommonResult<String> deleteStudentById(@PathVariable long id){
         studentService.deleteStudentById(id);
         return CommonResult.success(null, "删除学生信息成功");
+    }
+
+    @CheckLogin
+    @GetMapping("/courses/{id}")
+    @ApiOperation(value = "查询学生选课记录", notes = "根据学生id查询学生选课记录")
+    public CommonResult<List<StudentCourseRelation>> getStudentCourses(@PathVariable long id){
+        List<StudentCourseRelation> studentCourses = studentService.getStudentCourses(id);
+        return CommonResult.success(studentCourses, "查询学生选课记录成功");
     }
 
 
