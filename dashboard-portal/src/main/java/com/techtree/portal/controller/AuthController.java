@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2022-03-3014:06
  */
 
-@Api(tags = "注册/登录模块")
+@Api(tags = "注册-登录模块")
 @Controller
 @RestController
 @CrossOrigin
