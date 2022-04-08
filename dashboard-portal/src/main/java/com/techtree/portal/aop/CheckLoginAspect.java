@@ -55,7 +55,6 @@ public class CheckLoginAspect {
         StudentInfoVo studentByEmail = studentService.getStudentByEmail(userId);
         System.out.println("student: " + studentByEmail.toString());
         if(studentByEmail == null)   Assert.fail(ResultCode.UNAUTHORIZED);
-
         JwtUtil.verifyToken(token, userId);
 
         return point.proceed();

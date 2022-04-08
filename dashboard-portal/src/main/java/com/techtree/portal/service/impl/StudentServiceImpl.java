@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.techtree.common.exception.Assert;
+import com.techtree.common.service.RedisService;
 import com.techtree.portal.mapper.SCMapper;
 import com.techtree.portal.mapper.StudentMapper;
 import com.techtree.portal.model.DO.Course;
@@ -37,7 +38,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Resource
     private MailServiceUtil mailServiceUtil;
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisService redisService;
     @Autowired
     private SCMapper scMapper;
 
@@ -153,7 +154,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             Assert.fail("该邮箱已被注册");
         }
         int addStudent;
-        String redisCode = (String) redisTemplate.opsForValue().get(student.getEmail());
+        String redisCode = (String) redisService.get(student.getEmail());
         if (redisCode.equals(verifyCode)) {
             addStudent = this.addStudent(student);
         } else {
@@ -168,7 +169,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         try {
             String code = String.valueOf((int)((Math.random() * 9 + 1) * 100000));
             mailServiceUtil.sendMail("support@techtree.tech", to, "验证码", code);
-            redisTemplate.opsForValue().set(to, code,5, TimeUnit.MINUTES);
+            redisService.set(to, code, 300);
         } catch (Exception e) {
             Assert.fail("发送邮件失败");
         }

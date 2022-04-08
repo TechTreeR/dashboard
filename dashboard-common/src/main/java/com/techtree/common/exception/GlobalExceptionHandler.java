@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 /**
  * @author Dysprosium
@@ -19,23 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @ControllerAdvice
-public class GlobalExceptionHandle {
-
-    {
-        System.out.println("Exception handler");
-    }
-
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ApiException.class)
     @ResponseBody
-    public CommonResult handApiException(ApiException e) {
-        System.out.println("Api Exception");
+    public CommonResult handleApiException(ApiException e) {
         if (e.getResultCode() != null) {
             return CommonResult.failed(e.getResultCode());
         }
         return CommonResult.failed(e.getMessage());
     }
-
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseBody
@@ -51,8 +45,6 @@ public class GlobalExceptionHandle {
         return CommonResult.failed(message);
     }
 
-
-
     @ExceptionHandler(value = BindException.class)
     @ResponseBody
     public CommonResult handleValidException(BindException e) {
@@ -65,6 +57,12 @@ public class GlobalExceptionHandle {
             }
         }
         return CommonResult.validateFailed(message);
+    }
+
+    @ExceptionHandler(value = AsyncRequestTimeoutException.class)
+    @ResponseBody
+    public CommonResult handleTimeoutException(AsyncRequestTimeoutException e) {
+        return CommonResult.failed("接口超时");
     }
 
 }

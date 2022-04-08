@@ -3,8 +3,15 @@ package com.techtree.portal.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.AlgorithmMismatchException;
+import com.auth0.jwt.exceptions.InvalidClaimException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.techtree.common.api.ResultCode;
+import com.techtree.common.exception.Assert;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +28,7 @@ import java.util.Date;
 
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     /**
@@ -45,9 +53,16 @@ public class JwtUtil {
 
     public static void verifyToken(String token, String secret) {
         DecodedJWT jwt = null;
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
-        jwt = verifier.verify(token);
-        // throw exception
+
+        try {
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
+            jwt = verifier.verify(token);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            Assert.fail(ResultCode.UNAUTHORIZED);
+        }
+
+
     }
 
     public static String getAudience(String token) {
