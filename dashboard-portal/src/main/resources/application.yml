@@ -43,9 +43,7 @@ spring:
         max-wait: 1000
         min-idle: 0
     timeout: 30000
-  mvc:
-    async:
-      request-timeout: 2000
+
 
 
 server:
