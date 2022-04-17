@@ -3,6 +3,8 @@ package com.techtree.portal.controller;
 import com.techtree.common.api.CommonResult;
 import com.techtree.common.exception.Assert;
 import com.techtree.portal.model.DO.Student;
+import com.techtree.portal.model.VO.StudentAuthVo;
+import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.model.VO.StudentTokenVo;
 import com.techtree.portal.service.impl.StudentServiceImpl;
 import com.techtree.portal.util.MailServiceUtil;
@@ -54,14 +56,14 @@ public class AuthController {
     /**
      * 注册
      * @param student 注册的学生信息
-     * @param verifyCode 验证码
      * @return  注册的结果
      */
     @PostMapping ("/registry")
     @ApiOperation(value = "注册", notes = "传入需要注册的学生Json和验证码")
-    public CommonResult<Student> registry(@RequestBody Student student, @RequestParam("verifyCode") String verifyCode) {
-        studentService.registry(student, verifyCode);
-        return CommonResult.success(student, "注册成功");
+    public CommonResult<StudentInfoVo> registry(@RequestBody StudentAuthVo student) {
+        studentService.registry(student);
+        StudentInfoVo studentInfoVo = new StudentInfoVo(student.getId(), student.getName(), student.getSex(), student.getEmail(), student.getMajor());
+        return CommonResult.success(studentInfoVo, "注册成功");
     }
 
     /**

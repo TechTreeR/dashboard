@@ -70,4 +70,13 @@ public class Student implements Serializable {
         this.sex = sex;
         this.age = age;
     }
+
+    public Student(Long id, String password, String email, String name, String sex, Integer age) {
+        this.id = id;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+    }
 }

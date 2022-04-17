@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.techtree.portal.model.DO.Course;
 import com.techtree.portal.model.DO.Student;
 import com.techtree.portal.model.DO.StudentCourseRelation;
+import com.techtree.portal.model.VO.StudentAuthVo;
 import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.model.VO.StudentTokenVo;
 
@@ -23,7 +24,7 @@ public interface StudentService extends IService<Student> {
     // 注册登录鉴权相关
     StudentTokenVo login(String id, String password);
     boolean checkEmailExist(String email);
-    int registry(Student student, String verifyCode);
+    int registry(StudentAuthVo student);
     boolean sendEmail(String to);
 
     // 选课信息相关

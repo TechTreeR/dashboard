@@ -2,6 +2,7 @@ package com.techtree.portal.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,6 +13,7 @@ import com.techtree.portal.mapper.StudentMapper;
 import com.techtree.portal.model.DO.Course;
 import com.techtree.portal.model.DO.Student;
 import com.techtree.portal.model.DO.StudentCourseRelation;
+import com.techtree.portal.model.VO.StudentAuthVo;
 import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.model.VO.StudentTokenVo;
 import com.techtree.portal.service.StudentService;
@@ -88,7 +90,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public boolean checkEmailExist(String email) {
-        Student student = studentMapper.selectById(email);
+        log.debug("正在检查邮箱注册情况");
+        Student student =  this.getOne(new QueryWrapper<Student>().eq("email", email));
+        log.debug("邮箱{}已被{}注册", email, student);
         if (ObjectUtil.isNull(student)) {
             return false;
         }
@@ -98,6 +102,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Override
     public int addStudent(Student student) {
         student.setPassword(BCrypt.hashpw(student.getPassword()));
+        log.debug("需要插入的学生信息{}", student);
         int insert = studentMapper.insert(student);
         if(insert == 0) {
             log.error("增加学生信息 {} 不存在", student);
@@ -146,7 +151,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public int registry(Student student, String verifyCode) {
+    public int registry(StudentAuthVo student) {
         boolean emailExist = this.checkEmailExist(student.getEmail());
         log.info("检查邮箱{}是否已被注册:{}", student.getEmail(), emailExist);
         if(emailExist) {
@@ -155,8 +160,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         }
         int addStudent;
         String redisCode = (String) redisService.get(student.getEmail());
-        if (redisCode.equals(verifyCode)) {
-            addStudent = this.addStudent(student);
+        if(ObjectUtil.isNull(redisCode)) {
+            Assert.fail("验证码不存在");
+        }
+        if (redisCode.equals(student.getVerifyCode())) {
+            Student newStudent = new Student(student.getId(), student.getPassword(), student.getEmail(), student.getName(), student.getSex(), student.getAge());
+            addStudent = this.addStudent(newStudent);
         } else {
             addStudent = 0;
             Assert.fail("验证码错误");
