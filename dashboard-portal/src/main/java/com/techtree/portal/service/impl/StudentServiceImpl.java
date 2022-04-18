@@ -8,11 +8,13 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.techtree.common.exception.Assert;
 import com.techtree.common.service.RedisService;
+import com.techtree.portal.mapper.CourseMapper;
 import com.techtree.portal.mapper.SCMapper;
 import com.techtree.portal.mapper.StudentMapper;
 import com.techtree.portal.model.DO.Course;
 import com.techtree.portal.model.DO.Student;
 import com.techtree.portal.model.DO.StudentCourseRelation;
+import com.techtree.portal.model.VO.CourseInfoVo;
 import com.techtree.portal.model.VO.StudentAuthVo;
 import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.model.VO.StudentTokenVo;
@@ -43,6 +45,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     private RedisService redisService;
     @Autowired
     private SCMapper scMapper;
+    @Autowired
+    private CourseMapper courseMapper;
 
     @Override
     public List<StudentInfoVo> getAllStudents() {
@@ -112,8 +116,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public boolean updateStudent(Student student) {
-        boolean update = this.update(student, new UpdateWrapper<Student>().eq("id", student.getId()));
+    public boolean updateStudent(StudentInfoVo student) {
+        Student student1 = new Student(student.getId(), student.getName(), student.getSex(), student.getMajor());
+        boolean update = this.update(student1, new UpdateWrapper<Student>().eq("id", student.getId()));
         if(!update) {
             log.error("更新学生信息 {} 不存在", student);
             Assert.fail("修改学生信息失败");
@@ -194,6 +199,83 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         }
         return sid;
     }
+
+
+    @Override
+    public List<CourseInfoVo> getAllCoursesSelectByStudent(long id) {
+        ArrayList<CourseInfoVo> courseInfoVos = new ArrayList<>();
+        ArrayList<String> allCourseIds = new ArrayList<>();
+        List<Course> courses = courseMapper.selectList(null);
+        List<StudentCourseRelation> studentCourseRelations = scMapper.selectScByStudentId(id);
+        if (studentCourseRelations.isEmpty()) {
+            Assert.fail("选课信息不存在");
+        }
+        for (StudentCourseRelation course : studentCourseRelations) {
+            allCourseIds.add(course.getCid());
+        }
+        for (Course course : courses) {
+            CourseInfoVo courseInfoVo = null;
+            if(allCourseIds.contains(course.getCid())) {
+                courseInfoVo = new CourseInfoVo(course.getCid(), course.getCname(), course.getTname(), course.getPlace(), course.getMajor(), course.getCapacity(), true);
+            } else {
+                courseInfoVo = new CourseInfoVo(course.getCid(), course.getCname(), course.getTname(), course.getPlace(), course.getMajor(), course.getCapacity(), false);
+            }
+            courseInfoVos.add(courseInfoVo);
+        }
+        return courseInfoVos;
+    }
+
+    @Override
+    public boolean selectCourse(String cid, long sid) {
+        Course course = courseMapper.selectById(cid);
+        if(ObjectUtil.isNull(course)) {
+            log.error("为id为{}的学生选{}课时失败: 未找到该课程", sid, cid);
+            Assert.fail("选课失败");
+        }
+        if(course.getRemains().equals(0)) {
+            log.error("为id为{}的学生选{}课时失败: 该课已经选满", sid, cid);
+            Assert.fail("选课失败");
+        }
+        StudentCourseRelation studentCourseRelation = scMapper.selectScBy2Ids(sid, cid);
+        if(!ObjectUtil.isNull(studentCourseRelation)) {
+            log.error("为id为{}的学生选{}课时失败: 重复选课", sid, cid);
+            Assert.fail("选课失败");
+        }
+        int insert = scMapper.insert(new StudentCourseRelation(sid, cid));
+        int reduceRemain = scMapper.reduceRemain(cid);
+        if(insert==1 && reduceRemain==1)    return true;
+        else {
+            log.error("为id为{}的学生选{}课时失败", sid, cid);
+            Assert.fail("选课失败");
+            return false;
+        }
+    }
+
+//    @Override
+//    public boolean withdrawCourse(String cid, long sid) {
+//        Course course = courseMapper.selectById(cid);
+//        if(ObjectUtil.isNull(course)) {
+//            log.error("为id为{}的学生退{}课时失败: 未找到该课程", sid, cid);
+//            Assert.fail("选课失败");
+//        }
+//        if(course.getCapacity().equals(0)) {
+//            log.error("为id为{}的学生退{}课时失败: 该课已经选满", sid, cid);
+//            Assert.fail("选课失败");
+//        }
+//        StudentCourseRelation studentCourseRelation = scMapper.selectScBy2Ids(sid, cid);
+//        if(!ObjectUtil.isNull(studentCourseRelation)) {
+//            log.error("为id为{}的学生退{}课时失败: 重复选课", sid, cid);
+//            Assert.fail("选课失败");
+//        }
+//        int insert = scMapper.insert(new StudentCourseRelation(sid, cid));
+//        int reduceRemain = scMapper.reduceRemain(cid);
+//        if(insert==1 && reduceRemain==1)    return true;
+//        else {
+//            log.error("为id为{}的学生选{}课时失败", sid, cid);
+//            Assert.fail("选课失败");
+//            return false;
+//        }
+//    }
 
 
 }

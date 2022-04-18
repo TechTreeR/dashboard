@@ -79,4 +79,12 @@ public class Student implements Serializable {
         this.sex = sex;
         this.age = age;
     }
+
+    public Student(Long id, String name, String sex, String major) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.major = major;
+    }
+
 }

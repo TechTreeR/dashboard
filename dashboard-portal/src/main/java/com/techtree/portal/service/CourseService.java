@@ -2,6 +2,7 @@ package com.techtree.portal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.techtree.portal.model.DO.Course;
+import com.techtree.portal.model.VO.CourseInfoVo;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ public interface CourseService extends IService<Course> {
     int addCourse(Course course);
     boolean updateCourse(Course course);
     int deleteCourseById(String id);
-
 
 
 

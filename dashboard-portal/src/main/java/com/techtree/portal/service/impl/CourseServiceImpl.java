@@ -6,11 +6,15 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.techtree.common.exception.Assert;
 import com.techtree.portal.mapper.CourseMapper;
+import com.techtree.portal.mapper.SCMapper;
 import com.techtree.portal.model.DO.Course;
+import com.techtree.portal.model.DO.StudentCourseRelation;
+import com.techtree.portal.model.VO.CourseInfoVo;
 import com.techtree.portal.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +30,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Autowired
     CourseMapper courseMapper;
+    @Autowired
+    private SCMapper scMapper;
 
     QueryWrapper<Course> queryWrapper = new QueryWrapper();
 
@@ -114,4 +120,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         }
         return deleteById;
     }
+
+
+
+
 }

@@ -15,7 +15,6 @@ public class HelloController {
 
 
     @GetMapping("/hello")
-    @CheckLogin
     public String hello() {
         log.info("================INFO================");
         return "Hello World";
