@@ -105,7 +105,7 @@ public class StudentController {
     }
 
     @GetMapping("/allcourses/{id}")
-    @ApiOperation(value = "查询学生选课记录", notes = "根据学生id查询学生选课记录")
+    @ApiOperation(value = "查询学生选课记录", notes = "根据学生id查询学生选课记录, 没有selected字段")
     public CommonResult<List<StudentCourseRelation>> getStudentCourses(@PathVariable long id){
         List<StudentCourseRelation> studentCourses = studentService.getStudentCourses(id);
         return CommonResult.success(studentCourses, "查询学生选课记录成功");
@@ -119,7 +119,7 @@ public class StudentController {
     }
 
     @PutMapping("/select/{cid}/{sid}")
-    @ApiOperation(value = "查询学生选课记录", notes = "根据学生id查询所有学生选课记录, 在selected字段标识是否选上")
+    @ApiOperation(value = "选课", notes = "根据课程id和学生id进行选课")
     public CommonResult<Boolean> SelectCourse(@PathVariable String cid, @PathVariable Long sid) {
         boolean selectCourse = studentService.selectCourse(cid, sid);
         return CommonResult.success(selectCourse, "选课成功");
