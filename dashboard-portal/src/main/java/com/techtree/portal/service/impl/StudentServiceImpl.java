@@ -207,9 +207,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         ArrayList<String> allCourseIds = new ArrayList<>();
         List<Course> courses = courseMapper.selectList(null);
         List<StudentCourseRelation> studentCourseRelations = scMapper.selectScByStudentId(id);
-        if (studentCourseRelations.isEmpty()) {
-            Assert.fail("选课信息不存在");
-        }
         for (StudentCourseRelation course : studentCourseRelations) {
             allCourseIds.add(course.getCid());
         }
@@ -251,31 +248,31 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         }
     }
 
-//    @Override
-//    public boolean withdrawCourse(String cid, long sid) {
-//        Course course = courseMapper.selectById(cid);
-//        if(ObjectUtil.isNull(course)) {
-//            log.error("为id为{}的学生退{}课时失败: 未找到该课程", sid, cid);
-//            Assert.fail("选课失败");
-//        }
-//        if(course.getCapacity().equals(0)) {
-//            log.error("为id为{}的学生退{}课时失败: 该课已经选满", sid, cid);
-//            Assert.fail("选课失败");
-//        }
-//        StudentCourseRelation studentCourseRelation = scMapper.selectScBy2Ids(sid, cid);
-//        if(!ObjectUtil.isNull(studentCourseRelation)) {
-//            log.error("为id为{}的学生退{}课时失败: 重复选课", sid, cid);
-//            Assert.fail("选课失败");
-//        }
-//        int insert = scMapper.insert(new StudentCourseRelation(sid, cid));
-//        int reduceRemain = scMapper.reduceRemain(cid);
-//        if(insert==1 && reduceRemain==1)    return true;
-//        else {
-//            log.error("为id为{}的学生选{}课时失败", sid, cid);
-//            Assert.fail("选课失败");
-//            return false;
-//        }
-//    }
+    @Override
+    public boolean withdrawCourse(String cid, long sid) {
+        Course course = courseMapper.selectById(cid);
+        if(ObjectUtil.isNull(course)) {
+            log.error("为id为{}的学生退{}课时失败: 未找到该课程", sid, cid);
+            Assert.fail("选课失败");
+        }
+        if(course.getCapacity().equals(0)) {
+            log.error("为id为{}的学生退{}课时失败: 容量为空，无人选课", sid, cid);
+            Assert.fail("选课失败");
+        }
+        StudentCourseRelation studentCourseRelation = scMapper.selectScBy2Ids(sid, cid);
+        if(ObjectUtil.isNull(studentCourseRelation)) {
+            log.error("为id为{}的学生退{}课时失败: 未选该课", sid, cid);
+            Assert.fail("选课失败");
+        }
+        int deleteCourse = scMapper.deleteCourse(sid, cid);
+        int increaseRemain = scMapper.increaseRemain(cid);
+        if(deleteCourse==1 && increaseRemain==1)    return true;
+        else {
+            log.error("为id为{}的学生退{}课时失败", sid, cid);
+            Assert.fail("退课失败");
+            return false;
+        }
+    }
 
 
 }

@@ -32,5 +32,5 @@ public interface StudentService extends IService<Student> {
     List<StudentCourseRelation> getStudentCourses(long id);
     List<CourseInfoVo> getAllCoursesSelectByStudent(long id);
     boolean selectCourse(String cid, long sid);
-//    boolean withdrawCourse(String cid, long sid);
+    boolean withdrawCourse(String cid, long sid);
 }
