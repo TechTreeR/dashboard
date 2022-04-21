@@ -2,6 +2,7 @@ package com.techtree.portal.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.techtree.portal.model.DO.StudentCourseRelation;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -31,6 +32,9 @@ public interface SCMapper extends BaseMapper<StudentCourseRelation> {
 
     @Update("update Course set remains = (remains+1) where cid = #{cid}")
     int increaseRemain(String cid);
+
+    @Delete("delete from sc_relation where sid = #{sid} and cid = #{cid}")
+    int deleteCourse(Long sid, String cid);
 
 
 }

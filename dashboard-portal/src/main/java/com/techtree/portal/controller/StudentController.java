@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "学生模块")
 @RestController
@@ -124,6 +125,15 @@ public class StudentController {
         boolean selectCourse = studentService.selectCourse(cid, sid);
         return CommonResult.success(selectCourse, "选课成功");
     }
+
+    @PutMapping("/withdraw")
+    @ApiOperation(value = "退课", notes = "根据课程id和学生id进行退课")
+    public CommonResult<Boolean> withdrawCourse(@RequestBody Map<String, Object> withdrawMap) {
+        boolean selectCourse = studentService.withdrawCourse(withdrawMap.get("cid").toString(), Long.valueOf(withdrawMap.get("sid").toString()));
+        return CommonResult.success(selectCourse, "退课成功");
+    }
+
+
 
 
 
