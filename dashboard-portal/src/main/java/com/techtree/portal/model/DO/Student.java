@@ -22,7 +22,7 @@ import java.util.Date;
 @ApiModel(value = "student对象", description = "学生表")
 public class Student implements Serializable {
 
-    @ApiModelProperty(value = "主键id")
+    @ApiModelProperty(value = "主键id123")
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
