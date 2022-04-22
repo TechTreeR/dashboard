@@ -182,7 +182,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public boolean sendEmail(String to) {
         try {
             String code = String.valueOf((int)((Math.random() * 9 + 1) * 100000));
-            mailServiceUtil.sendMail("support@techtree.tech", to, "验证码", code);
+            mailServiceUtil.sendMail("support@techtree.tech", to, "Verify Code", code);
             redisService.set(to, code, 300);
         } catch (Exception e) {
             Assert.fail("发送邮件失败");
