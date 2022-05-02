@@ -15,14 +15,12 @@ import java.util.List;
  */
 @Service
 public interface CommentService extends IService<Comment> {
-    int addComment(long sid, String commentText);
-    int deleteComment(int commentId);
-    int updateComment(int commentId, String commentText);
+    Integer addComment(Comment comment);
+    Integer deleteComment(String commentId);
+    Integer updateComment(String commentId, String commentText);
 
     List<Comment> getAllComments();
-
-
-    List<Comment> getCommentBySid(long sid);
-    Comment getCommentById(int commentId);
+    List<Comment> getCommentBySid(Long sid);
+    Comment getCommentById(String commentId);
 
 }

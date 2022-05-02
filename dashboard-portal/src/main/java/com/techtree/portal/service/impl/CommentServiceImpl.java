@@ -30,19 +30,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private CommentMapper commentMapper;
 
     @Override
-    public int addComment(long sid, String commentText) {
-        Comment comment = new Comment(sid, commentText);
-        log.debug("学生id为{}的用户插入评论内容为{}", sid, commentText);
+    public Integer addComment(Comment comment) {
+        log.debug("插入评论为{}", comment);
         int insert = commentMapper.insert(comment);
         if (insert == 0) {
-            log.error("学生id为{}的用户插入评论内容为{}失败", sid, commentText);
+            log.error("插入评论为{}失败", comment);
             Assert.fail("插入评论失败");
         }
         return insert;
     }
 
     @Override
-    public int deleteComment(int commentId) {
+    public Integer deleteComment(String commentId) {
         log.debug("删除id为{}的评论", commentId);
         int delete = commentMapper.deleteById(commentId);
         if (delete == 0) {
@@ -55,7 +54,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
 
     @Override
-    public int updateComment(int commentId, String commentText) {
+    public Integer updateComment(String commentId, String commentText) {
         Comment commentById = this.getCommentById(commentId);
         if(ObjectUtil.isNull(commentById)) {
             log.error("查询id为 {} 的评论信息不存在", commentId);
@@ -76,17 +75,17 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public List<Comment> getCommentBySid(long sid) {
+    public List<Comment> getCommentBySid(Long sid) {
         List<Comment> commentBySid = this.query().eq("sid", sid).list();
         if(commentBySid.isEmpty()) {
-            log.error("查询学生id为{}的评论信息不存在", sid);
+            log.error("查询学生id为 {} 的评论信息不存在", sid);
             Assert.fail("评论信息未找到");
         }
         return commentBySid;
     }
 
     @Override
-    public Comment getCommentById(int commentId) {
+    public Comment getCommentById(String commentId) {
         Comment comment = commentMapper.selectById(commentId);
         if(ObjectUtil.isNull(comment)) {
             log.error("查询id为 {} 的评论信息不存在", commentId);

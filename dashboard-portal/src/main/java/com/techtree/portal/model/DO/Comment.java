@@ -26,8 +26,8 @@ import java.util.Date;
 @Data
 public class Comment implements Serializable {
     @ApiModelProperty(value = "评论的主键id")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer commentId;
+    @TableId(value = "commentid", type = IdType.ASSIGN_ID)
+    private String commentId;
 
     @ApiModelProperty(value = "课程id")
 //    @NotEmpty(message = "课程id不能为空")
@@ -53,8 +53,9 @@ public class Comment implements Serializable {
     @TableLogic
     private Integer isDeleted;
 
-    public Comment(Long sid, String comment) {
+    public Comment(Long sid, String cid, String comment) {
         this.sid = sid;
+        this.cid = cid;
         this.comment = comment;
     }
 }
