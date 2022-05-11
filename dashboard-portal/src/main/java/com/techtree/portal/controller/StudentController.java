@@ -6,6 +6,7 @@ import com.techtree.portal.annotation.CheckLogin;
 import com.techtree.portal.model.DO.Student;
 import com.techtree.portal.model.DO.StudentCourseRelation;
 import com.techtree.portal.model.VO.CourseInfoVo;
+import com.techtree.portal.model.VO.StudentAuthVo;
 import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.model.VO.StudentTokenVo;
 import com.techtree.portal.service.CourseService;
@@ -134,8 +135,18 @@ public class StudentController {
     }
 
 
+    @PutMapping("/xcgpwd")
+    @ApiOperation(value = "修改密码", notes = "传入学生信息和要修改的修改密码")
+    public CommonResult<StudentInfoVo> changePassword(@RequestBody StudentAuthVo student) {
+        studentService.updatePassword(student);
+        StudentInfoVo studentInfoVo = new StudentInfoVo(student.getId(), student.getName(), student.getSex(), student.getEmail(), student.getMajor());
+        return CommonResult.success(studentInfoVo, "修改密码成功");
+    }
 
-
-
-
+    @GetMapping("/classmates/{cid}")
+    @ApiOperation(value = "查询课友", notes = "输入需要查询的课程id")
+    public CommonResult<List<StudentInfoVo>> getStudentsOfCourse(@PathVariable String cid) {
+        List<StudentInfoVo> courseStudents = studentService.getCourseStudents(cid);
+        return CommonResult.success(courseStudents, "查询课友成功");
+    }
 }

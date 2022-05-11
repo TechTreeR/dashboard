@@ -24,6 +24,9 @@ public interface SCMapper extends BaseMapper<StudentCourseRelation> {
     @Select("select * from sc_relation where sid = #{id}")
     List<StudentCourseRelation> selectScByStudentId(Long id);
 
+    @Select("select * from sc_relation where cid = #{cid}")
+    List<StudentCourseRelation> selectScByCourseId(String cid);
+
     @Select("select * from sc_relation where sid = #{sid} and cid = #{cid}")
     StudentCourseRelation selectScBy2Ids(Long sid, String cid);
 
@@ -35,6 +38,7 @@ public interface SCMapper extends BaseMapper<StudentCourseRelation> {
 
     @Delete("delete from sc_relation where sid = #{sid} and cid = #{cid}")
     int deleteCourse(Long sid, String cid);
+
 
 
 }

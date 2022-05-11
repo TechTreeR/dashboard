@@ -75,7 +75,6 @@ public class AuthController {
     @ApiOperation(value = "登录", notes = "传入帐号和密码")
     public CommonResult<StudentTokenVo> login(@RequestBody Map<String, Object> passwordMap) {
         StudentTokenVo login = studentService.login(passwordMap.get("email").toString(), passwordMap.get("password").toString());
-
         return CommonResult.success(login, "登陆成功");
     }
 }

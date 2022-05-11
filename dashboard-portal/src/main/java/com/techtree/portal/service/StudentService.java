@@ -20,6 +20,7 @@ public interface StudentService extends IService<Student> {
     StudentInfoVo getStudentByEmail(String email);
     int addStudent(Student student);
     boolean updateStudent(StudentInfoVo student);
+    boolean updatePassword(StudentAuthVo student);
     int deleteStudentById(long id);
 
     // 注册登录鉴权相关
@@ -33,4 +34,5 @@ public interface StudentService extends IService<Student> {
     List<CourseInfoVo> getAllCoursesSelectByStudent(long id);
     boolean selectCourse(String cid, long sid);
     boolean withdrawCourse(String cid, long sid);
+    List<StudentInfoVo> getCourseStudents(String cid);
 }

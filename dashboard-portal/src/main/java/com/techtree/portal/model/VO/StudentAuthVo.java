@@ -31,7 +31,6 @@ public class StudentAuthVo implements Serializable {
     @NotEmpty(message = "密码不能为空")
     private String password;
 
-
     @ApiModelProperty(value = "姓名")
     @NotEmpty(message = "姓名不能为空")
     private String name;

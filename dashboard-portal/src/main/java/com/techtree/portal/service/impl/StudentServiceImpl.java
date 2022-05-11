@@ -127,6 +127,25 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
+    public boolean updatePassword(StudentAuthVo student) {
+        boolean updateStudent;
+        String redisCode = (String) redisService.get(student.getEmail());
+        if(ObjectUtil.isNull(redisCode)) {
+            Assert.fail("验证码不存在");
+        }
+
+        if (redisCode.equals(student.getVerifyCode())) {
+            student.setPassword(BCrypt.hashpw(student.getPassword()));
+            Student newStudent = new Student(student.getId(), student.getPassword(), student.getEmail(), student.getName(), student.getSex(), student.getAge());
+            updateStudent = this.update(newStudent, new UpdateWrapper<Student>().eq("id", student.getId()));
+        } else {
+            updateStudent = false;
+            Assert.fail("验证码错误");
+        }
+        return updateStudent;
+    }
+
+    @Override
     public int deleteStudentById(long id) {
         int deleteById = studentMapper.deleteById(id);
         if(deleteById == 0) {
@@ -272,6 +291,21 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             Assert.fail("退课失败");
             return false;
         }
+    }
+
+    @Override
+    public List<StudentInfoVo> getCourseStudents(String cid) {
+        ArrayList<StudentInfoVo> students = new ArrayList<>();
+        List<StudentCourseRelation> studentCourseRelations = scMapper.selectScByCourseId(cid);
+        for (StudentCourseRelation studentCourseRelation : studentCourseRelations) {
+            log.debug("{}",studentCourseRelation.getSid());
+            StudentInfoVo studentById = this.getStudentById(studentCourseRelation.getSid());
+            students.add(studentById);
+        }
+        if (students.isEmpty()) {
+            Assert.fail("该课程不存在学生");
+        }
+        return students;
     }
 
 
