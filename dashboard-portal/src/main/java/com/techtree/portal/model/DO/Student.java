@@ -23,8 +23,8 @@ import java.util.Date;
 public class Student implements Serializable {
 
     @ApiModelProperty(value = "主键id")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private String id;
 
     @ApiModelProperty(value = "密码")
     @NotEmpty(message = "密码不能为空")
@@ -63,7 +63,7 @@ public class Student implements Serializable {
     @TableLogic
     private Integer isDeleted;
 
-    public Student(Long id, String password, String name, String sex, Integer age) {
+    public Student(String id, String password, String name, String sex, Integer age) {
         this.id = id;
         this.password = password;
         this.name = name;
@@ -71,7 +71,7 @@ public class Student implements Serializable {
         this.age = age;
     }
 
-    public Student(Long id, String password, String email, String name, String sex, Integer age) {
+    public Student(String id, String password, String email, String name, String sex, Integer age) {
         this.id = id;
         this.password = password;
         this.email = email;
@@ -80,7 +80,7 @@ public class Student implements Serializable {
         this.age = age;
     }
 
-    public Student(Long id, String name, String sex, String major) {
+    public Student(String id, String name, String sex, String major) {
         this.id = id;
         this.name = name;
         this.sex = sex;

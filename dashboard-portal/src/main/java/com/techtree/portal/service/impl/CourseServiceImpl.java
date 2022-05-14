@@ -10,6 +10,7 @@ import com.techtree.portal.mapper.SCMapper;
 import com.techtree.portal.model.DO.Course;
 import com.techtree.portal.model.DO.StudentCourseRelation;
 import com.techtree.portal.model.VO.CourseInfoVo;
+import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,7 +121,6 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         }
         return deleteById;
     }
-
 
 
 

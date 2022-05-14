@@ -6,6 +6,7 @@ import com.techtree.portal.annotation.CheckLogin;
 import com.techtree.portal.model.DO.Student;
 import com.techtree.portal.model.DO.StudentCourseRelation;
 import com.techtree.portal.model.VO.CourseInfoVo;
+import com.techtree.portal.model.VO.StudentAuthVo;
 import com.techtree.portal.model.VO.StudentInfoVo;
 import com.techtree.portal.model.VO.StudentTokenVo;
 import com.techtree.portal.service.CourseService;
@@ -38,8 +39,8 @@ public class StudentController {
 
     @GetMapping("/selectById/{id}")
     @ApiOperation(value = "学生主页信息", notes = "根据学生id查询学生信息")
-    @ApiImplicitParam(name = "id", value = "学生id", dataType = "long")
-    public CommonResult<StudentInfoVo> getStudentById(@PathVariable long id) {
+    @ApiImplicitParam(name = "id", value = "学生id", dataType = "String")
+    public CommonResult<StudentInfoVo> getStudentById(@PathVariable String id) {
         StudentInfoVo studentById = studentService.getStudentById(id);
         return CommonResult.success(studentById, "查询学生信息成功");
     }
@@ -100,28 +101,28 @@ public class StudentController {
      */
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除学生信息", notes = "根据学生id删除学生信息")
-    public CommonResult<String> deleteStudentById(@PathVariable long id){
+    public CommonResult<String> deleteStudentById(@PathVariable String id){
         studentService.deleteStudentById(id);
         return CommonResult.success(null, "删除学生信息成功");
     }
 
     @GetMapping("/allcourses/{id}")
     @ApiOperation(value = "查询学生选课记录", notes = "根据学生id查询学生选课记录, 没有selected字段")
-    public CommonResult<List<StudentCourseRelation>> getStudentCourses(@PathVariable long id){
+    public CommonResult<List<StudentCourseRelation>> getStudentCourses(@PathVariable String id){
         List<StudentCourseRelation> studentCourses = studentService.getStudentCourses(id);
         return CommonResult.success(studentCourses, "查询学生选课记录成功");
     }
 
     @GetMapping("/courses/{id}")
     @ApiOperation(value = "查询学生选课记录", notes = "根据学生id查询所有学生选课记录, 在selected字段标识是否选上")
-    public CommonResult<List<CourseInfoVo>> getStudentCourseWithMark(@PathVariable long id) {
+    public CommonResult<List<CourseInfoVo>> getStudentCourseWithMark(@PathVariable String id) {
         List<CourseInfoVo> allCoursesSelectByStudent = studentService.getAllCoursesSelectByStudent(id);
         return CommonResult.success(allCoursesSelectByStudent, "查询学生选课记录成功");
     }
 
     @PutMapping("/select/{cid}/{sid}")
     @ApiOperation(value = "选课", notes = "根据课程id和学生id进行选课")
-    public CommonResult<Boolean> SelectCourse(@PathVariable String cid, @PathVariable Long sid) {
+    public CommonResult<Boolean> SelectCourse(@PathVariable String cid, @PathVariable String sid) {
         boolean selectCourse = studentService.selectCourse(cid, sid);
         return CommonResult.success(selectCourse, "选课成功");
     }
@@ -129,13 +130,23 @@ public class StudentController {
     @PutMapping("/withdraw")
     @ApiOperation(value = "退课", notes = "根据课程id和学生id进行退课")
     public CommonResult<Boolean> withdrawCourse(@RequestBody Map<String, Object> withdrawMap) {
-        boolean selectCourse = studentService.withdrawCourse(withdrawMap.get("cid").toString(), Long.valueOf(withdrawMap.get("sid").toString()));
+        boolean selectCourse = studentService.withdrawCourse(withdrawMap.get("cid").toString(), withdrawMap.get("sid").toString());
         return CommonResult.success(selectCourse, "退课成功");
     }
 
 
+    @PutMapping("/xcgpwd")
+    @ApiOperation(value = "修改密码", notes = "传入学生信息和要修改的修改密码")
+    public CommonResult<StudentInfoVo> changePassword(@RequestBody StudentAuthVo student) {
+        studentService.updatePassword(student);
+        StudentInfoVo studentInfoVo = new StudentInfoVo(student.getId(), student.getName(), student.getSex(), student.getEmail(), student.getMajor());
+        return CommonResult.success(studentInfoVo, "修改密码成功");
+    }
 
-
-
-
+    @GetMapping("/classmates/{cid}")
+    @ApiOperation(value = "查询课友", notes = "输入需要查询的课程id")
+    public CommonResult<List<StudentInfoVo>> getStudentsOfCourse(@PathVariable String cid) {
+        List<StudentInfoVo> courseStudents = studentService.getCourseStudents(cid);
+        return CommonResult.success(courseStudents, "查询课友成功");
+    }
 }

@@ -2,6 +2,7 @@ package com.techtree.portal.controller;
 
 import com.techtree.common.api.CommonResult;
 import com.techtree.portal.model.DO.Comment;
+import com.techtree.portal.model.VO.CommentInfoVO;
 import com.techtree.portal.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,10 +31,9 @@ public class CommentController {
 
     @GetMapping("/all")
     @ApiOperation(value = "所有评论信息", notes = "查询所有评论信息")
-    public CommonResult<List<Comment>> getAllComments() {
-        List<Comment> allComments = commentService.getAllComments();
+    public CommonResult<List<CommentInfoVO>> getAllComments() {
+        List<CommentInfoVO> allComments = commentService.getAllComments();
         return CommonResult.success(allComments, "查询所有评论信息成功");
-
     }
 
     @PutMapping("/add")
@@ -41,9 +41,5 @@ public class CommentController {
     public CommonResult<Comment> addComment(@RequestBody Comment comment) {
         commentService.addComment(comment);
         return CommonResult.success(null, "添加评论信息成功");
-
     }
-
-
-
 }

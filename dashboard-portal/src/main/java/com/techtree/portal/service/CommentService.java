@@ -2,6 +2,7 @@ package com.techtree.portal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.techtree.portal.model.DO.Comment;
+import com.techtree.portal.model.VO.CommentInfoVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public interface CommentService extends IService<Comment> {
     Integer deleteComment(String commentId);
     Integer updateComment(String commentId, String commentText);
 
-    List<Comment> getAllComments();
-    List<Comment> getCommentBySid(Long sid);
+    List<CommentInfoVO> getAllComments();
+    List<CommentInfoVO> getCommentBySid(String sid);
     Comment getCommentById(String commentId);
 
 }

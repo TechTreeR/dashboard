@@ -2,7 +2,6 @@ package com.techtree.portal.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,13 +22,11 @@ import com.techtree.portal.util.JwtUtil;
 import com.techtree.portal.util.MailServiceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -59,7 +56,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public StudentInfoVo getStudentById(long id) {
+    public StudentInfoVo getStudentById(String id) {
         Student student = studentMapper.selectById(id);
         StudentInfoVo studentInfoVo = new StudentInfoVo(student.getId(), student.getName(), student.getSex(), student.getEmail(), student.getMajor());
         if (ObjectUtil.isNull(student)) {
@@ -127,7 +124,26 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public int deleteStudentById(long id) {
+    public boolean updatePassword(StudentAuthVo student) {
+        boolean updateStudent;
+        String redisCode = (String) redisService.get(student.getEmail());
+        if(ObjectUtil.isNull(redisCode)) {
+            Assert.fail("验证码不存在");
+        }
+
+        if (redisCode.equals(student.getVerifyCode())) {
+            student.setPassword(BCrypt.hashpw(student.getPassword()));
+            Student newStudent = new Student(student.getId(), student.getPassword(), student.getEmail(), student.getName(), student.getSex(), student.getAge());
+            updateStudent = this.update(newStudent, new UpdateWrapper<Student>().eq("id", student.getId()));
+        } else {
+            updateStudent = false;
+            Assert.fail("验证码错误");
+        }
+        return updateStudent;
+    }
+
+    @Override
+    public int deleteStudentById(String id) {
         int deleteById = studentMapper.deleteById(id);
         if(deleteById == 0) {
             log.error("删除id为 {} 的学生失败", id);
@@ -191,7 +207,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public List<StudentCourseRelation> getStudentCourses(long id) {
+    public List<StudentCourseRelation> getStudentCourses(String id) {
         List<StudentCourseRelation> sid = scMapper.selectList(new QueryWrapper<StudentCourseRelation>().eq("sid", id));
         if (sid.isEmpty()) {
             log.error("查询id为 {} 的学生信息不存在", id);
@@ -202,7 +218,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
 
     @Override
-    public List<CourseInfoVo> getAllCoursesSelectByStudent(long id) {
+    public List<CourseInfoVo> getAllCoursesSelectByStudent(String id) {
         ArrayList<CourseInfoVo> courseInfoVos = new ArrayList<>();
         ArrayList<String> allCourseIds = new ArrayList<>();
         List<Course> courses = courseMapper.selectList(null);
@@ -223,7 +239,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public boolean selectCourse(String cid, long sid) {
+    public boolean selectCourse(String cid, String sid) {
         Course course = courseMapper.selectById(cid);
         if(ObjectUtil.isNull(course)) {
             log.error("为id为{}的学生选{}课时失败: 未找到该课程", sid, cid);
@@ -249,7 +265,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public boolean withdrawCourse(String cid, long sid) {
+    public boolean withdrawCourse(String cid, String sid) {
         Course course = courseMapper.selectById(cid);
         if(ObjectUtil.isNull(course)) {
             log.error("为id为{}的学生退{}课时失败: 未找到该课程", sid, cid);
@@ -272,6 +288,21 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             Assert.fail("退课失败");
             return false;
         }
+    }
+
+    @Override
+    public List<StudentInfoVo> getCourseStudents(String cid) {
+        ArrayList<StudentInfoVo> students = new ArrayList<>();
+        List<StudentCourseRelation> studentCourseRelations = scMapper.selectScByCourseId(cid);
+        for (StudentCourseRelation studentCourseRelation : studentCourseRelations) {
+            log.debug("{}",studentCourseRelation.getSid());
+            StudentInfoVo studentById = this.getStudentById(studentCourseRelation.getSid());
+            students.add(studentById);
+        }
+        if (students.isEmpty()) {
+            Assert.fail("该课程不存在学生");
+        }
+        return students;
     }
 
 
