@@ -27,7 +27,7 @@ public class StudentInfoVo implements Serializable {
 
     @ApiModelProperty(value = "主键id")
     @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "姓名")
     @NotEmpty(message = "姓名不能为空")

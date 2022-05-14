@@ -35,7 +35,7 @@ public class Comment implements Serializable {
 
     @ApiModelProperty(value = "学生id")
 //    @NotEmpty(message = "学生id不能为空")
-    private Long sid;
+    private String sid;
 
     @ApiModelProperty(value = "评论内容")
     @NotEmpty(message = "评论内容不能为空")
@@ -53,7 +53,7 @@ public class Comment implements Serializable {
     @TableLogic
     private Integer isDeleted;
 
-    public Comment(Long sid, String cid, String comment) {
+    public Comment(String sid, String cid, String comment) {
         this.sid = sid;
         this.cid = cid;
         this.comment = comment;

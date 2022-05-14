@@ -30,7 +30,7 @@ public class StudentCourseRelation implements Serializable {
 
     @ApiModelProperty(value = "学生id")
     @NotEmpty(message = "学生id不能为空")
-    private Long sid;
+    private String sid;
 
     @ApiModelProperty(value = "课程id")
     @NotEmpty(message = "课程id不能为空")

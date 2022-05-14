@@ -21,7 +21,7 @@ public interface CommentService extends IService<Comment> {
     Integer updateComment(String commentId, String commentText);
 
     List<CommentInfoVO> getAllComments();
-    List<CommentInfoVO> getCommentBySid(Long sid);
+    List<CommentInfoVO> getCommentBySid(String sid);
     Comment getCommentById(String commentId);
 
 }

@@ -93,7 +93,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public List<CommentInfoVO> getCommentBySid(Long sid) {
+    public List<CommentInfoVO> getCommentBySid(String sid) {
         List<Comment> commentBySid = this.query().eq("sid", sid).list();
         if(commentBySid.isEmpty()) {
             log.error("查询学生id为 {} 的评论信息不存在", sid);
