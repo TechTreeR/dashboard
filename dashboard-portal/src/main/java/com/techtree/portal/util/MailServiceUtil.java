@@ -1,11 +1,12 @@
 package com.techtree.portal.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * @author Dysprosium
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MailServiceUtil {
 
-    @Autowired
+    @Resource
     private JavaMailSender mailSender;
 
     public void sendMail(String from, String to, String subject, String content) {
