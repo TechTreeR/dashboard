@@ -130,11 +130,13 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         if(ObjectUtil.isNull(redisCode)) {
             Assert.fail("验证码不存在");
         }
-
         if (redisCode.equals(student.getVerifyCode())) {
             student.setPassword(BCrypt.hashpw(student.getPassword()));
             Student newStudent = new Student(student.getId(), student.getPassword(), student.getEmail(), student.getName(), student.getSex(), student.getAge());
-            updateStudent = this.update(newStudent, new UpdateWrapper<Student>().eq("id", student.getId()));
+            updateStudent = this.update()
+                    .eq("email", student.getEmail())
+                    .set("password", student.getPassword())
+                    .update();
         } else {
             updateStudent = false;
             Assert.fail("验证码错误");
